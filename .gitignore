@@ -1,1 +1,4 @@
 Supra-Hodge-Laplacians-Full-Paper.md
+.env
+__pycache__/
+*.py[cod]
