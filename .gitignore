@@ -1,16 +1,5 @@
-Supra-Hodge-Laplacians-Full-Paper.md
-.env
-__pycache__/
-*.py[cod]
-*.aux
-*.bbl
-*.bcf
-*.blg
-*.fdb_latexmk
-*.fls
-*.log
-*.out
-*.run.xml
-*.synctex.gz
-*.toc
-tectonic.exe
+# Ignore everything; allow only PDFs (and this file so rules persist after clone).
+*
+!*/
+!**/*.pdf
+!.gitignore
