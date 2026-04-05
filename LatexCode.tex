@@ -68,42 +68,12 @@
 
 %% ── Abstract ─────────────────────────────────────────────────────────────────
 \begin{abstract}
-We introduce the \emph{Supra-Hodge Laplacian}, a new spectral operator that
-unifies two previously separate generalizations of the classical graph
-Laplacian: the supra-Laplacian, which encodes cross-layer coupling in
-multilayer graph systems, and the combinatorial Hodge Laplacian, which encodes
-higher-order topological structure within a single simplicial complex. Fixing a
-family of complexes on a shared vertex set (one view per layer), an aligned
-reference set of $p$-simplices, and nonnegative scalar couplings between layers,
-the order-$p$ Supra-Hodge Laplacian $L_p$ is the block operator on stacked
-ambient $p$-chains that augments embedded layerwise Hodge Laplacians
-$H_p^{(i)}$ with a Kronecker-type coupling $L_{\mathrm{inter}}\otimes I_{N_p}$
-from the inter-layer graph. For a stacked signal, its quadratic energy splits
-into within-layer topological smoothness and cross-layer disagreement. The
-central formal result is the
-\emph{Consensus-Harmonic Nullspace Theorem}: $\ker(L_p)$ is exactly the set of
-stacked signals that are simultaneously harmonic in every layer and mutually
-consensual across every connected component of the inter-layer coupling graph.
+We introduce the \emph{Supra-Hodge Laplacian}, a new spectral operator that unifies two previously separate generalizations of the classical graph Laplacian: the supra-Laplacian, which encodes cross-layer coupling in multilayer graph systems, and the combinatorial Hodge Laplacian, which encodes higher-order topological structure within a single simplicial complex. Fixing a family of complexes on a shared vertex set (one view per layer), an aligned reference set of $p$-simplices, and nonnegative scalar couplings between layers, the order-$p$ Supra-Hodge Laplacian $L_p$ is the block operator on stacked ambient $p$-chains that augments embedded layerwise Hodge Laplacians $H_p^{(i)}$ with a Kronecker-type coupling $L_{\mathrm{inter}} \otimes I_{N_p}$ from the inter-layer graph. For a stacked signal, its quadratic energy splits into within-layer topological smoothness and cross-layer disagreement.
 
-The construction is provably consistent: in the single-layer, order-$0$,
-no-higher-order limit it recovers the standard graph Laplacian; at $p=0$ it
-reduces to the classical supra-Laplacian; and at $k=1$ it reduces to the
-single-layer Hodge Laplacian. Spectral analysis yields a
-generalized Fiedler theory for coupled higher-order systems, with low-energy
-eigenmodes identifying coherent multi-view harmonic structure and
-conflict-frontier modes identifying topological inconsistency across views. We
-develop a low-energy projector $P_{p,r}$ that achieves principled spectral
-compression of multi-view chain signals. An application to multi-view
-large-language-model reasoning formalizes the operator as a diagnostic and
-compressive device over structured reasoning traces.
-Proof-of-concept experiments on synthetic relational benchmarks support the
-theoretical predictions and show advantages over pairwise and single-view
-spectral baselines in this controlled setting.
+The central formal result is the Consensus-Harmonic Nullspace Theorem: $\ker(L_p)$ is exactly the set of stacked signals that are simultaneously harmonic in every layer and mutually consensual across every connected component of the inter-layer coupling graph. The construction is provably consistent: in the single-layer, order-$0$, no-higher-order limit it recovers the standard graph Laplacian; at $p=0$ it reduces to the classical supra-Laplacian; and at $k=1$ it reduces to the single-layer Hodge Laplacian. Spectral analysis yields a generalized Fiedler theory for coupled higher-order systems, with low-energy eigenmodes identifying coherent multi-view harmonic structure and conflict-frontier modes identifying topological inconsistency across views. We develop a low-energy projector $P_{p,r}$ that achieves principled spectral compression of multi-view chain signals. Proof-of-concept experiments on synthetic relational benchmarks support the theoretical predictions and show advantages over pairwise and single-view spectral baselines in this controlled setting.
 \end{abstract}
 
-\noindent\textbf{Keywords:} Hodge Laplacian, supra-Laplacian, simplicial complexes,
-multilayer graphs, spectral methods, higher-order topology, multi-view learning,
-LLM reasoning, spectral compression.
+\noindent\textbf{Keywords:} Hodge Laplacian, supra-Laplacian, simplicial complexes, multilayer graphs, spectral methods, higher-order topology, multi-view biological networks, scientific relational systems, spectral compression.
 
 \clearpage
 \tableofcontents
@@ -138,16 +108,7 @@ $\Sigma_p$ & Global simplex index set \\
 \subsection{Motivation: Multi-View and Higher-Order Relational Systems}
 \label{subsec:motivation}
 
-Modern relational systems are neither pairwise nor single-view. A
-protein-interaction network simultaneously encodes physical binding, regulatory
-co-expression, and genetic interaction, each of which can form higher-order
-complexes involving three or more proteins jointly. A multi-hop reasoning agent
-maintains semantic, evidential, causal, and temporal layers over the same set
-of working entities, and within each layer certain groups of three entities form
-genuine triplets that cannot be decomposed into their pairwise parts. A
-knowledge graph for scientific planning contains both citation layers and
-experimental-dependency layers, each populated with cliques and triangles that
-carry structurally distinct information.
+Modern relational systems are often neither pairwise nor single-view. A protein-interaction system may simultaneously encode physical binding, regulatory co-expression, metabolic dependence, and shared pathway participation over the same set of molecular entities, and some of these relations may involve higher-order groups rather than isolated pairs. A scientific knowledge network may contain citation, methodological dependence, co-authorship, and experimental-validation layers over a shared set of papers, authors, or concepts, while certain coherent groups of three or more entities carry structure that cannot be reduced to pairwise edges alone. More generally, multi-view biological and scientific systems frequently combine several relational views with genuinely higher-order interactions.
 
 Two powerful spectral frameworks have been developed to address these
 complexities individually, but neither addresses both at once. The
@@ -161,21 +122,12 @@ multiple views, each possessing higher-order structure, coupled across views.
 
 We construct the \emph{Supra-Hodge Laplacian}, a block operator that is
 simultaneously a supra-Laplacian across views and a Hodge Laplacian within each
-view. The primary contribution of this paper is
-mathematical; the reasoning application in Section~\ref{sec:application} serves
-to illustrate the operator's relevance to structured multi-view inference
-systems.
+view. The primary contribution of this paper is mathematical; later sections only briefly discuss possible application directions in biological and scientific-network settings that exhibit coupled multi-view higher-order structure.
 
 \subsection{Why Pairwise Graph Methods Are Insufficient}
 \label{subsec:insufficient}
 
-Consider three agents forming a stable epistemic coalition whose stability is a
-genuinely three-body phenomenon: remove any single edge and the coalition
-dissolves, yet the pairwise adjacency between any pair is nonzero. A graph
-Laplacian encodes only the pairwise structure; it cannot represent the
-qualitatively different status of the filled triangle versus the hollow cycle
-of three edges. This is not a quirk: it is the defining limitation of all
-pairwise methods.
+Consider three proteins forming a functional complex whose stability is a genuinely three-body phenomenon: remove any one interaction and the complex no longer forms, even though the pairwise interaction score between each pair remains nonzero. A graph Laplacian encodes only the pairwise structure; it cannot represent the qualitatively different status of the filled triangle versus the hollow cycle of three edges. This is not a quirk: it is the defining limitation of all pairwise methods.
 
 Within a single Hodge framework, this limitation is overcome for one relational
 view. But when $k$ views exist---each with its own triangles, its own harmonic
@@ -208,9 +160,7 @@ This paper makes the following contributions.
 \item \textbf{Spectral theory.} We develop a generalized Fiedler theory and
       formalize the low-energy projector $P_{p,r}$ for spectral compression
       (Section~\ref{sec:spectral}).
-\item \textbf{Application.} We formalize the mapping of the framework to
-      multi-view LLM reasoning as an illustrative application domain
-      (Section~\ref{sec:application}).
+\item \textbf{Possible application directions.} We briefly discuss several biological and scientific-network domains in which coupled higher-order multi-view structure may arise, while keeping the paper's claims mathematical and exploratory.
 \item \textbf{Experiments.} We present synthetic proof-of-concept experiments
       that test the operator's predicted behavior in controlled settings
       (Section~\ref{sec:experiments}).
@@ -234,7 +184,7 @@ Section~\ref{sec:defn} then defines the Supra-Hodge Laplacian $L_p$ itself.
 Section~\ref{sec:properties} establishes fundamental properties and the main
 theorem. Section~\ref{sec:spectral} develops spectral interpretation.
 Section~\ref{sec:dynamics} treats dynamics and perturbations.
-Section~\ref{sec:application} maps the theory to LLM reasoning.
+Section~\ref{sec:application} briefly discusses possible future application directions in biological and scientific-network settings.
 Section~\ref{sec:algorithms} presents algorithms. Section~\ref{sec:examples}
 collects worked examples. Section~\ref{sec:experiments} reports experiments.
 Sections~\ref{sec:discussion} and~\ref{sec:conclusion} discuss limitations and
@@ -381,7 +331,7 @@ edge set, and $w\colon E \to \R_{>0}$ assigns positive weights. The
 $\{u,v\}\in E$ and $A_{uv}=0$ otherwise.
 \end{definition}
 
-\subsection{Degree Matrices and the Operator $L = D-A$}
+\subsection{Degree Matrices and the Graph Laplacian}
 
 \begin{definition}[Degree Matrix and Graph Laplacian]
 The \emph{degree matrix} $D = \diag(d_1,\dots,d_n)$ has
@@ -481,8 +431,8 @@ directly to the Supra-Hodge setting in Section~\ref{sec:spectral}.
 
 \begin{example}[Four-node weighted graph]
 \label{ex:4node}
-Let $G$ have $V=\{1,2,3,4\}$ and edges $\{1,2\},\{2,3\},\{3,4\},\{4,1\},\{1,3\}$,
-all with unit weight. Then
+Let $G$ have vertex set $V=\{1,2,3,4\}$. The undirected edges are
+$\{1,2\}$, $\{2,3\}$, $\{3,4\}$, $\{4,1\}$, and $\{1,3\}$, each with unit weight. Then
 \begingroup
 \setlength{\arraycolsep}{3pt}
 \small
@@ -529,9 +479,8 @@ $\mathcal{G} = \{G^{(1)},\dots,G^{(k)}\}$, each on vertex set $V$:
 \[
   \mathcal{G} = \{G^{(1)}, G^{(2)}, \dots, G^{(k)}\}.
 \]
-Each $G^{(i)} = (V, E^{(i)}, w^{(i)})$ encodes a distinct relation type. In a
-reasoning system, these might be semantic similarity, evidential support,
-causal dependency, and temporal precedence.
+Each $G^{(i)} = (V, E^{(i)}, w^{(i)})$ encodes a distinct relation type; for
+example, physical interaction, co-expression, pathway, or citation layers in a multi-relational biological or scientific system.
 
 \subsection{Layerwise Graph Laplacians}
 
@@ -565,7 +514,7 @@ The \emph{supra-Laplacian} is the $kn\times kn$ block-symmetric matrix
 
 \begin{proposition}[Supra-Laplacian Energy Decomposition]
 \label{prop:supra_energy}
-For any stacked signal $v=(v^{(1)},\dots,v^{(k)})$,
+For any stacked signal $v=(v^{(1)},\allowbreak \dots,\allowbreak v^{(k)})$,
 \begingroup
 \small
 \[
@@ -620,8 +569,8 @@ $\omega_{12}\|2\mathbf{1}\|^2=12$.
 
 Even with $k$ coupled layers, the supra-Laplacian encodes only pairwise edges
 within each layer. It cannot distinguish a filled triangle (a 2-simplex) from a
-hollow cycle of three edges. If three entities jointly support a conclusion in a
-way that no pair does independently, the supra-Laplacian assigns the same energy
+hollow cycle of three edges. If three proteins jointly participate in a functional module in a
+way that no pair of pairwise measurements captures independently, the supra-Laplacian assigns the same energy
 to both configurations. Correcting this requires Hodge theory.
 
 
@@ -695,14 +644,11 @@ upper Laplacian energy: the triangle ``detects'' that the flow winds around it,
 and the harmonic cycle is destroyed. No pairwise operator can see this
 difference.
 
-\subsection{Examples from Reasoning and Relational Systems}
+\subsection{Examples from Biology and Scientific Networks}
 
-In an evidential layer of a reasoning trace, three propositions
-$\{P_1, P_2, P_3\}$ may jointly support a conclusion even though no pair does
-alone. This is a 2-simplex in the evidential complex. Its presence eliminates
-the harmonic 1-cycle formed by the three pairwise support edges, flagging the
-triplet as genuinely consistent. Pairwise models would treat a three-way
-evidence coalition identically to three isolated pairwise connections.
+In a protein-complex layer of a biological network, three proteins $\{P_1, P_2, P_3\}$ may jointly form a stable functional unit even though no pair alone captures the full biological role. This is naturally represented by a 2-simplex rather than by three unrelated edges. Its presence eliminates the harmonic 1-cycle formed by the three pairwise interaction edges, indicating that the triplet is a genuine higher-order unit rather than merely a hollow loop of pairwise relations.
+
+A similar phenomenon may arise in a scientific network. Three papers or concepts may form a tightly integrated methodological cluster whose collective relation is stronger than any pairwise association taken alone. Representing that cluster by a 2-simplex distinguishes a genuinely higher-order scientific grouping from a mere triangle in the pairwise graph.
 
 
 %% ══════════════════════════════════════════════════════════════════════════════
@@ -714,7 +660,7 @@ This section develops the algebraic machinery for computing with simplicial
 complexes: chain spaces that coordinatize signals on simplices of each
 dimension, and boundary operators that map between consecutive dimensions.
 
-\subsection{$p$-Simplices and $p$-Chains}
+\subsection{\texorpdfstring{$p$-Simplices and $p$-Chains}{p-Simplices and p-Chains}}
 
 \begin{definition}[Chain Space]
 The \emph{$p$-chain space} of $K$ is
@@ -877,7 +823,7 @@ Both $B_p^\top B_p$ and $B_{p+1}B_{p+1}^\top$ are of the form $M^\top M$
 of symmetric PSD matrices is symmetric PSD.
 \end{proof}
 
-\subsection{Recovery of the Graph Laplacian at $p=0$}
+\subsection{\texorpdfstring{Recovery of the Graph Laplacian at $p=0$}{Recovery of the Graph Laplacian at p=0}}
 
 \begin{proposition}[Hodge-0 Equals Graph Laplacian]
 \label{prop:h0}
@@ -895,7 +841,7 @@ $\sum_e (B_1)_{ae}(B_1)_{be}$. For $a=b$: $(B_1 B_1^\top)_{aa} = \sum_e
 This proposition confirms that Hodge theory is a genuine extension of graph
 spectral theory: $H_0$ is the original graph Laplacian.
 
-\subsection{The $p=1$ Case and Cycle-Level Inconsistency}
+\subsection{\texorpdfstring{The $p=1$ Case and Cycle-Level Inconsistency}{The p=1 Case and Cycle-Level Inconsistency}}
 
 For $p=1$, a signal $f\in C_1(K)$ (a flow or relation strength on edges) has
 \[
@@ -987,12 +933,7 @@ This alignment step is the key technical device that allows higher-order operato
 
 \subsection{Why a Single Simplicial Complex Is Not Enough}
 
-A reasoning agent maintains semantic clusters, evidential support relations, and
-temporal precedences over the same entities. Each view has its own higher-order
-structure (semantic triplets, evidence triplets, temporal chains). Merging all
-views into a single complex conflates semantically unrelated triangles and
-destroys the per-view interpretation of harmonic cycles. We need a family of
-complexes and a principled coupling.
+A multi-relational biological or scientific system may encode, for instance, physical interaction, co-expression, and pathway-participation relations over the same molecular entities, or citation, co-authorship, and methodological-dependence relations over the same papers and authors. Each view has its own higher-order structure (for instance, filled triangles versus hollow cycles at $p=1$). Merging all views into a single complex conflates relations that belong to different modalities and destroys the per-view interpretation of harmonic cycles. We need a family of complexes and a principled coupling.
 
 \subsection{Families of Complexes Over a Shared Entity Set}
 
@@ -1062,15 +1003,15 @@ into a $2\times 3 \cdot 2\times 3 = 6\times 6$ block operator.
 \subsection{When Identity Coupling Is Natural}
 
 If all layers share the same $p$-simplices ($K_p^{(i)}=K_p^{(j)}$ for all
-$i,j$), then corresponding simplices are semantically paired and the natural
+$i,j$), then corresponding simplices refer to the same oriented simplex in each layer and the natural
 coupling operator between layers $i$ and $j$ is $C^{(ij)}=\omega_{ij}I_{N_p}$.
 This is the scalar coupling case studied throughout this paper.
 
 \subsection{When Identity Coupling Fails}
 
 If layers have different complex structures with no natural simplex
-correspondence, identity coupling may conflate semantically unrelated simplices.
-In this case, a learned or structured coupling matrix $C^{(ij)}\in\R^{N_p\times
+correspondence, identity coupling may conflate simplices whose interpretations differ across modalities.
+In this case, an estimated or structured coupling matrix $C^{(ij)}\in\R^{N_p\times
 N_p}$ replaces $\omega_{ij}I_{N_p}$. This extension is discussed in
 Section~\ref{sec:discussion}; we focus on the scalar case here.
 
@@ -1095,7 +1036,7 @@ Given the family $\calK$ and aligned incidence matrices $B_p^{(i)}\in
 By Proposition~\ref{prop:hodge_psd}, $H_p^{(i)}\succeq 0$. The aligned
 construction ensures all $H_p^{(i)}$ act on the same ambient space $\Ctil_p$.
 
-\subsection{Stacked $p$-Chain Signal Spaces}
+\subsection{\texorpdfstring{Stacked $p$-Chain Signal Spaces}{Stacked p-Chain Signal Spaces}}
 
 The total signal space for the $k$-layer system at order $p$ is
 \[
@@ -1117,7 +1058,7 @@ The coupling graph encodes which layer pairs are linked. Its connectivity
 structure will determine the dimension of $\ker(L_p)$ through
 Theorem~\ref{thm:main}.
 
-\subsection{Block-Matrix Definition of $L_p$}
+\subsection{\texorpdfstring{Block-Matrix Definition of $L_p$}{Block-Matrix Definition of L\_p}}
 
 \begin{definition}[Supra-Hodge Laplacian]
 \label{def:main}
@@ -1155,7 +1096,7 @@ L_p = \mathcal{H}_p + L_{\mathrm{inter}} \otimes I_{N_p}.
 
 This form makes the structure of the operator especially transparent: the first term captures within-layer higher-order topology, while the second captures cross-layer disagreement through a Kronecker coupling.
 
-\subsection{Aggregated Multi-Order Operator $L_{\mathrm{SH}}$}
+\subsection{\texorpdfstring{Aggregated Multi-Order Operator $L_{\mathrm{SH}}$}{Aggregated Multi-Order Operator L\_SH}}
 
 When signals of multiple orders are relevant simultaneously, we aggregate:
 \[
@@ -1189,7 +1130,7 @@ main theorem.
 
 \begin{proposition}[Supra-Hodge Energy Expansion]
 \label{prop:sh_energy}
-For any stacked $p$-chain signal $v=(v^{(1)},\dots,v^{(k)})\in\calC_p$,
+For any stacked $p$-chain signal $v=(v^{(1)},\allowbreak \dots,\allowbreak v^{(k)})\in\calC_p$,
 \begingroup
 \small
 \[
@@ -1407,7 +1348,7 @@ The smallest eigenvalues of $L_p$ correspond to signals that minimize both intra
 In particular:
 \begin{itemize}
 \item The zero eigenvalue corresponds to globally consistent harmonic signals across all coupled layers.
-\item The first nonzero eigenvalues correspond to minimal-energy violations of consensus or harmonicity.
+\item The first nonzero eigenvalues mark the lowest-energy departures from exact consensus or harmonicity.
 \end{itemize}
 
 This generalizes the role of the Fiedler value: whereas the classical Fiedler vector detects bottlenecks in connectivity, the spectrum of $L_p$ detects instability across both topological structure and multi-view consistency.
@@ -1435,8 +1376,8 @@ nonzero topological or cross-layer energy.
 The eigenvectors for small positive eigenvalues are the most nearly-harmonic,
 most nearly-consensual stacked signals. They represent globally coherent
 multi-view patterns: configurations that are smooth within each layer and nearly
-identical across layers. In a reasoning trace, they correspond to the most
-robustly supported hypotheses and the most stable shared factual structures.
+identical across layers. Such modes describe the most coherent multi-view
+$p$-chain patterns under the coupled energy.
 
 \subsection{Generalized Fiedler Modes}
 
@@ -1483,9 +1424,8 @@ Mid-range eigenvectors correspond to stacked signals that are topologically
 smooth within some layers but inconsistent across others, or cross-layer
 consistent but topologically rough in at least one layer. These are
 \emph{conflict frontiers}: locations in the combined spectral space where
-partial agreement meets partial inconsistency. In a reasoning system, they flag
-hypotheses or relational structures that are supported in some views but
-contradicted in others.
+partial agreement meets partial inconsistency. Geometrically, they highlight
+stacked signals that are smooth in some layers but inconsistent across others.
 
 \subsection{Curl Energy and Hidden Higher-Order Inconsistency}
 
@@ -1558,10 +1498,10 @@ This is Weyl's inequality for symmetric matrices.
 
 \subsection{Time-Varying Coupled Simplicial Systems}
 
-Real relational systems evolve. A reasoning agent adds new facts, tools are
-called and return results, and evidence structures change with each reasoning
-step. We write $K^{(i)}(t)$ for the time-indexed complex in layer $i$ and
-$L_p(t)$ for the resulting Supra-Hodge Laplacian.
+Real relational systems evolve: entities accrue new relations, measurements update,
+and the simplicial structure in one or more views changes with a time parameter.
+We write $K^{(i)}(t)$ for the time-indexed complex in layer $i$ and $L_p(t)$ for
+the resulting Supra-Hodge Laplacian.
 
 \subsection{Local Perturbations and Incremental Updates}
 
@@ -1609,121 +1549,33 @@ The heat equation diffuses any initial stacked $p$-chain signal toward the nulls
 starting from any configuration, the system relaxes to a consensus-harmonic
 equilibrium (Theorem~\ref{thm:main}).
 
-\subsection{Interpretation for Evolving Reasoning Traces}
+\subsection{Interpretation for Evolving Biological and Scientific Relational Systems}
 
-In a reasoning trace, new evidence arriving at step $t$ modifies $L_p(t)$. The
-spectral flow tracks how the topological structure of the reasoning context
-evolves: each step either reinforces existing harmonic structure (small
-eigenvalue changes) or resolves a topological ambiguity (a
-low-energy mode being lifted away from zero). Monitoring the smallest positive eigenvalue over the trace provides a
-real-time indicator of the coherence of the reasoning context.
+The dynamic perspective developed above is not limited to a single static family of complexes. In many biological and scientific-network settings, the underlying relational system may evolve as simplices are added, removed, or reweighted within layers, and as the couplings between layers vary over time. In a biological context, new experimental measurements may refine interaction, co-expression, or pathway layers; in a scientific-network context, new publications, citations, or collaborative ties may alter the layered structure. The corresponding spectral quantities of the Supra-Hodge Laplacian then provide a way to monitor how coherent multi-view higher-order structure changes under perturbation. Low-energy modes may appear, disappear, or reorganize as the system evolves, while changes in the smallest positive eigenvalues may signal shifts in stability, agreement, or structural bottlenecks.
 
 
 %% ══════════════════════════════════════════════════════════════════════════════
-\section{Mapping the Theory to Multi-View LLM Reasoning}
+\section{Possible Application Directions}
 \label{sec:application}
 %% ══════════════════════════════════════════════════════════════════════════════
 
-\subsection{From Mathematical Structure to Reasoning Systems}
+\subsection{Why the operator may be useful beyond pure theory}
 
-The preceding sections developed the Supra-Hodge Laplacian as a purely mathematical object. We now explain why this construction is relevant to modern reasoning systems.
+The Supra-Hodge Laplacian is motivated by a structural pattern that arises naturally in several biological and scientific-network settings: a system may exhibit multiple relational views over a shared entity set, while each view may also contain interactions that are genuinely higher-order rather than reducible to pairwise edges. In such settings, one may wish to analyze both within-view topological structure and cross-view agreement within a single spectral formalism. The operator developed in this paper is designed precisely for that setting.
 
-Many reasoning processes involve multiple interacting structures: semantic similarity, evidential support, task dependencies, and execution constraints. These structures are inherently both multi-view and higher-order.
+From this perspective, the present work should be read first as a mathematical construction and analysis. Its value for applications, if any, would lie in providing a principled operator for systems in which layered relational structure and higher-order topology are both essential. The role of this section is therefore not to claim validated performance on real biological or bibliometric benchmarks, but only to indicate several contexts in which such structure may plausibly arise.
 
-The Supra-Hodge Laplacian provides a unified operator whose energy captures:
-\begin{itemize}
-    \item inconsistency within each structural view, and
-    \item disagreement across views.
-\end{itemize}
+\subsection{Biological network settings}
 
-This makes it a natural diagnostic and compression mechanism for structured reasoning traces, including those produced by large language models. Relevant settings include ReAct-style reasoning-and-action loops~\cite{yao2023}, graph-based retrieval and summarization pipelines~\cite{edge2024}, and tool-augmented foundation-model workflows~\cite{qin2023}.
+One possible family of applications consists of multi-relational biological systems. A shared set of entities such as proteins, genes, metabolites, or species may participate simultaneously in several relational views, including physical interaction, co-expression, pathway dependence, regulatory influence, or ecological co-occurrence. Within a given view, some patterns may be more naturally represented by simplices than by edges alone; for example, a higher-order biological module or jointly acting regulatory group may not be faithfully reducible to pairwise relations. In such settings, the operator may provide a way to study coherent low-energy structure, disagreement across views, and the persistence or collapse of higher-order cycles under coupling.
 
-\subsection{Scope of the Application Claim}
+\subsection{Scientific network settings}
 
-The application developed in this section is intentionally math-first and exploratory. The claim of the paper is not that the Supra-Hodge Laplacian has already been established as a production-ready reasoning primitive for large language models, but rather that it provides a mathematically natural operator for analyzing structured, multi-view reasoning traces.
+A second possible family of applications consists of scientific and scholarly networks. Here one may imagine several layers encoding citation relations, co-authorship structure, methodological dependence, shared datasets, or experimental validation over a common set of papers, researchers, or concepts. Some higher-order groupings may express joint methodological compatibility, shared evidentiary support, or tightly linked research clusters that are not adequately described by pairwise links alone. The Supra-Hodge Laplacian could, in principle, serve as a descriptive spectral summary for aligned multi-view structure in such systems.
 
-Accordingly, the LLM setting should be interpreted as a plausible and informative application domain for the operator, not as a finalized empirical claim about downstream reasoning performance. The primary contribution of the paper remains the operator itself and its spectral theory.
+\subsection{Scope and caution}
 
-\subsection{Why Reasoning Is Multi-View}
-
-A large language model executing a complex task simultaneously maintains
-multiple structural views over its active entities: which facts are semantically
-close, which provide evidence for which, which causally precede which, and
-which tools interact with which subgoals. These views are not independent
-(semantic closeness often implies evidential support) but they are also not
-redundant (temporal precedence need not follow semantic similarity). The
-Supra-Hodge Laplacian is an instrument for analyzing their joint structure.
-
-\subsection{Entities: Facts, States, Tools, Actions, Subgoals, Retrieved Items}
-
-We fix the shared entity set
-\[
-  V = \{v_1,\dots,v_n\},
-\]
-comprising all reasoning objects active in the current context: retrieved facts,
-intermediate hypotheses, tool invocations, action candidates, and subgoals.
-
-\subsection{Structural Views: Semantic, Evidential, Dependency, Feasibility, Temporal, Interaction}
-
-We construct $k$ simplicial complexes $\calK = \{K^{(1)},\dots,K^{(k)}\}$
-over $V$, one per relational view. Table~\ref{tab:layers} defines the layers
-and their structural interpretation.
-
-\begin{table}[h]
-\centering
-\caption{Reasoning layer mapping.}
-\label{tab:layers}
-\begin{tabular}{lllll}
-\toprule
-Layer & Complex & 1-simplices & 2-simplices & $p$-chain signal\\
-\midrule
-Semantic & $K^{(1)}$ & High-similarity pairs & Concept clusters & Embedding coord.\\
-Evidential & $K^{(2)}$ & Support relations & Joint-support triplets & Confidence\\
-Dependency & $K^{(3)}$ & Causal links & Causal triplets & Activation\\
-Feasibility & $K^{(4)}$ & Co-feasible pairs & Co-feasible triplets & Score\\
-Temporal & $K^{(5)}$ & Temporal precedence & Temporal triplets & Time index\\
-Tool-interaction & $K^{(6)}$ & Tool co-activation & Tool triplets & Usage frequency\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Vertex-Signals and Edge-Signals in Reasoning}
-
-A vertex-signal $s_0\in C_0$ assigns a scalar (relevance, activation) to each
-entity. An edge-signal $s_1\in C_1$ assigns a scalar to each directed relation
-(confidence in an implication, strength of a dependency). Higher-order chain
-signals encode joint properties of entity groups.
-
-\subsection{Higher-Order Simplices in Reasoning Contexts}
-
-Simplices are constructed by thresholding relation scores:
-\[
-  \simop(u,v)>\tau_1 \implies \{u,v\}\in E^{(i)},\qquad
-  \tri(u,v,w)>\tau_2 \implies \{u,v,w\}\in K_2^{(i)}.
-\]
-A 2-simplex in the evidential layer represents three entities jointly supporting
-a conclusion in a way that no pair does alone. Its presence eliminates a
-harmonic 1-cycle, signaling that the triplet is genuinely consistent.
-
-\subsection{What Conflict Means in This Formalism}
-
-A large curl energy $\|B_2^{(i)\top}s_1^{(i)}\|^2$ in the evidential layer
-means the confidence assignments on edges around some triangle are
-inconsistent: the signal claims $u$ supports $v$, $v$ supports $w$, but does
-not support $w$ directly, creating a cycle that the triangle would close if
-present. Cross-layer conflict arises when corresponding $p$-chain signals in
-different layers disagree---penalized by the off-diagonal blocks of $L_p$.
-
-\subsection{Diagnostics Rather Than Hard Control}
-
-The Supra-Hodge operator is \emph{read-only}: it does not modify the LLM's
-weights or sampling procedure. It computes, from the current reasoning trace, a
-spectral signature that can be used for (i) diagnostic monitoring (track
-$\lambda_2^{(p)}$ over the trace to measure coherence), (ii) compression
-(project the active signal onto $\Pp$ for low-dimensional representation), and
-(iii) conflict localization (inspect the Fiedler vector to identify the
-most contested partition of entities). All outputs are secondary signals passed
-back to the LLM as context, not direct interventions.
+These application directions are intentionally hypothetical. The present paper does not establish external benchmark gains in any specific domain, nor does it claim that the operator has yet been validated on real-world biological or scientific-network datasets. The main contribution remains the mathematical construction of the operator, its reduction properties, its spectral interpretation, and its controlled proof-of-concept validation on synthetic benchmarks.
 
 
 %% ══════════════════════════════════════════════════════════════════════════════
@@ -1731,26 +1583,25 @@ back to the LLM as context, not direct interventions.
 \label{sec:algorithms}
 %% ══════════════════════════════════════════════════════════════════════════════
 
-\subsection{Simplicial Lifting from Embeddings and Rules}
+\subsection{Simplicial Lifting from Similarity Scores and Structural Rules}
 
-The first computational step is constructing the simplicial complexes from
-embedding-based similarity scores. Algorithm~\ref{alg:lifting} performs this
-lifting.
+The first computational step is constructing simplicial complexes from pairwise and triplet similarity or interaction scores on entities (for example, experimentally derived affinities or inner products of fixed feature vectors), together with closure rules that enforce the simplicial axioms.
+Algorithm~\ref{alg:lifting} performs this lifting.
 
 \begin{algorithm}[h]
 \caption{Simplicial Lifting}
 \label{alg:lifting}
 \begin{algorithmic}[1]
-\Require Embeddings $\{e_v\}_{v\in V}$, thresholds $\tau_1,\tau_2$, dimension bound $P$
+\Require Feature vectors $\{f_v\}_{v\in V}$, thresholds $\tau_1,\tau_2$, dimension bound $P$
 \Ensure Simplicial complex $K$
 \State $K \gets \{\{v\}:v\in V\}$ \Comment{Initialize with 0-simplices}
 \For{each unordered pair $\{u,v\}\subseteq V$}
-  \If{$\simop(e_u,e_v) > \tau_1$}
+  \If{$\simop(f_u,f_v) > \tau_1$}
     \State Add oriented edge $[u,v]$ to $K$
   \EndIf
 \EndFor
 \For{each unordered triple $\{u,v,w\}\subseteq V$}
-  \If{$\tri(e_u,e_v,e_w)>\tau_2$ \textbf{and} $[u,v],[u,w],[v,w]\in K$}
+  \If{$\tri(f_u,f_v,f_w)>\tau_2$ \textbf{and} $[u,v],[u,w],[v,w]\in K$}
     \State Add oriented 2-simplex $[u,v,w]$ to $K$
   \EndIf
 \EndFor
@@ -1818,13 +1669,9 @@ For very large systems, spectral sparsifiers reduce the boundary matrices while
 preserving eigenvalue approximation. Randomized low-rank approximation reduces
 memory from $O(N_p^2)$ to $O(rN_p)$ per layer.
 
-\subsection{End-to-End Reasoning Pipeline}
+\subsection{End-to-End Analysis Pipeline}
 
-The complete pipeline takes a reasoning trace, lifts it to $\calK$ via
-Algorithm~\ref{alg:lifting}, assembles $L_p$ and $\LSH$ via
-Algorithm~\ref{alg:pipeline}, and returns: (i) the eigenvalue spectrum as a
-coherence diagnostic; (ii) the Fiedler vector $u_2^{(p)}$ for conflict
-localization; (iii) the compressed signal $\vhat = \Pp v$ for LLM augmentation.
+The complete pipeline takes a multi-view relational dataset, lifts it to a family of simplicial complexes via Algorithm~\ref{alg:lifting}, assembles $L_p$ and $L_{\mathrm{SH}}$ via Algorithm~\ref{alg:pipeline}, and returns: (i) the eigenvalue spectrum as a structural diagnostic; (ii) the Fiedler-type eigenvector $u^{(p)}_2$ for conflict or bottleneck localization; and (iii) the compressed signal $\hat{v} = P_{p,r}v$ for low-energy representation of the aligned multi-view chain signal.
 
 
 %% ══════════════════════════════════════════════════════════════════════════════
@@ -1894,26 +1741,16 @@ This is the simplest non-trivial illustration of Theorem~\ref{thm:main}: the
 combined nullspace is the intersection of per-layer harmonic spaces, intersected
 with the cross-layer consensus constraint.
 
-\subsection{A Miniature Reasoning-Trace Example}
+\subsection{A Miniature Biological Two-Layer Example}
 
-\begin{example}[Mini reasoning trace]
-\label{ex:reasoning}
-Let $V=\{Q, H_1, H_2, T\}$ where $Q$ is a query, $H_1, H_2$ are competing
-hypotheses, and $T$ is a tool call. Two layers:
+\begin{example}[Mini biological two-layer example]
+\label{ex:mini_mv_rel}
+Let $V = \{G, P_1, P_2, M\}$ where $G$ is a gene, $P_1$ and $P_2$ are two proteins, and $M$ is a metabolite. Consider two layers:
 \begin{itemize}
-\item Semantic ($K^{(1)}$): edges $\{Q,H_1\}$ and $\{Q,H_2\}$ (both hypotheses
-      are semantically related to the query).
-\item Evidential ($K^{(2)}$): edge $\{H_1,T\}$ (the tool supports $H_1$).
+\item Co-expression ($K^{(1)}$): edges $\{G,P_1\}$ and $\{G,P_2\}$.
+\item Pathway-association ($K^{(2)}$): edge $\{P_1,M\}$.
 \end{itemize}
-Neither layer has 2-simplices. The vertex-signal $s_0=[1, 0.8, 0.3, 0.5]^\top$
-assigns high relevance to $Q$ and $H_1$. The $p=0$ Supra-Hodge Laplacian $L_0$
-is the supra-Laplacian of these two layers. Its Fiedler vector identifies the
-partition $\{Q, H_1, T\}$ vs.\ $\{H_2\}$: $H_2$ is isolated because it appears
-in neither layer as a supported hypothesis. The cross-layer disagreement energy
-is large between the two layers because $H_2$ is semantically present (layer 1)
-but evidentially absent (layer 2). This example illustrates both the reduction
-to classical supra-Laplacian (Proposition~\ref{prop:p0}) and the multi-view
-diagnostic function of the framework.
+Neither layer has 2-simplices. The vertex-signal $s_0 = [1,0.8,0.3,0.5]^\top$ assigns high activity or relevance to $G$ and $P_1$. The $p=0$ Supra-Hodge Laplacian $L_0$ is the supra-Laplacian of these two layers. Its Fiedler-type vector identifies the partition $\{G,P_1,M\}$ versus $\{P_2\}$: $P_2$ is present in the co-expression layer but absent from the pathway-association layer. The cross-layer disagreement energy is large because $P_2$ appears in one biological view but not the other. This example illustrates both the reduction to the classical supra-Laplacian and the multi-view diagnostic function of the framework.
 \end{example}
 
 
@@ -1934,15 +1771,9 @@ We investigate three questions:
       multi-view chain signals?
 \end{enumerate}
 
-\subsection{Synthetic Scientific-Planning Case Study}
+\subsection{Synthetic Biological Network Case Study}
 
-We construct a reasoning trace with $n=50$ entities, $k=4$ views, and plant a
-topological inconsistency: in the evidential layer, three hypotheses form a
-closed triangle of support edges but the 2-simplex is absent (a harmonic 1-cycle
-is present). The planted inconsistency manifests as a low-energy mode associated
-with an unfilled harmonic cycle in the evidential layer; when the $2$-simplex is
-added, that low-energy signature is lifted in $L_1$, while graph baselines remain
-unable to distinguish the two configurations.
+We construct a synthetic biological network with $n = 50$ entities, $k = 4$ views, and plant a topological inconsistency: in one interaction layer, three entities form a closed triangle of pairwise relations but the corresponding 2-simplex is absent, so a harmonic 1-cycle is present. The planted inconsistency manifests as a low-energy mode associated with an unfilled higher-order cycle; when the 2-simplex is added, that low-energy signature is lifted in $L_1$, while graph baselines remain unable to distinguish the two configurations.
 
 \subsection{Synthetic Multi-View Benchmark}
 
@@ -2019,8 +1850,8 @@ equivalent to supra-Laplacian and cannot detect cycles.
 
 \subsection{Robustness and Runtime}
 
-HCDR degrades gracefully as Gaussian noise ($\sigma=0.1$) is added to embedding
-similarity scores: from $0.89$ to $0.76$ for the Supra-Hodge, versus from
+HCDR degrades gracefully as Gaussian noise ($\sigma=0.1$) is added to pairwise
+similarity scores used for lifting: from $0.89$ to $0.76$ for the Supra-Hodge, versus from
 $0.61$ to $0.42$ for single Hodge. Runtime scales as $O(kn+m)$ for assembly
 and $O(r\cdot kN_p\log(kN_p))$ for the eigensolver, consistent with the
 complexity analysis of Section~\ref{sec:algorithms}.
@@ -2029,9 +1860,10 @@ complexity analysis of Section~\ref{sec:algorithms}.
 
 The experiments confirm on synthetic data that the Supra-Hodge Laplacian detects
 topological inconsistencies invisible to all baselines, and that cross-layer
-coupling materially improves both detection and compression. The experiments do
-not establish performance on real multi-hop QA benchmarks or agentic planning
-tasks, which require LLM integration. Such evaluations are left for future work.
+coupling materially improves both detection and compression. They do not
+establish behavior on large real-world datasets where multi-view higher-order
+relational structure must be constructed or estimated under noise; such
+evaluation is left for future work.
 
 
 %% ══════════════════════════════════════════════════════════════════════════════
@@ -2094,44 +1926,33 @@ maintain. Dynamic alignment remains an open problem.
 
 Scalar couplings $\omega_{ij}I_{N_p}$ treat all $p$-simplices as equally
 important in the coupling. A structured coupling $C^{(ij)}\in\R^{N_p\times N_p}$
-would allow simplex-specific coupling strengths, encoding semantically
-meaningful correspondences. To preserve the main theorem and PSD property, such
-$C^{(ij)}$ must be symmetric PSD. Learned structured couplings (via a
-contrastive objective) are a natural extension.
+would allow simplex-specific coupling strengths, encoding biologically or scientifically interpretable correspondences. To preserve the main theorem and PSD property, such
+$C^{(ij)}$ must be symmetric PSD. Learned structured couplings (via estimation from paired cross-layer correspondences) are a natural extension.
 
 \subsection{Thresholded Versus Learned Lifting}
 
 The lifting algorithm uses fixed thresholds $\tau_1,\tau_2$. Learned thresholds
-(optimized for a downstream task via a differentiable relaxation of the
-thresholding step) would enable task-adaptive structural extraction. This
+(optimized against a biological or bibliometric fitting objective via a differentiable relaxation of the
+thresholding step) would enable data-adaptive structural extraction. This
 requires a continuous relaxation of the combinatorial complex structure, for
 which probabilistic simplicial complex models provide one approach.
 
 \subsection{Synthetic Evaluation Limits}
 
-The experiments use synthetic data with planted ground truth. Real multi-hop
-reasoning tasks such as HotpotQA~\cite{yang2018}, graph-based retrieval and
-summarization pipelines~\cite{edge2024}, and tool-augmented reasoning
-settings~\cite{yao2023,qin2023} do not provide explicit simplicial ground
-truth, so evaluation there would require proxy metrics such as answer accuracy,
-consistency, or retrieval quality. Such evaluations are needed before making
-strong empirical claims about downstream LLM reasoning benefits.
+The experiments in this paper use synthetic data with planted structure and are intended only as controlled proof-of-concept validation. They demonstrate that the operator behaves in accordance with the theoretical predictions in settings where the relevant multi-view higher-order signal is explicitly constructed. They do not, however, establish performance on real-world datasets, where the appropriate simplicial structure, cross-view alignment, and evaluation targets may be substantially more ambiguous. Meaningful domain-specific validation would require benchmark settings in biological or scientific-network analysis where multi-view higher-order relational structure can be operationalized in a principled way. Such empirical evaluation is left for future work.
 
 \subsection{Normalized and Differentiable Variants}
 
 A normalized version $\tilde{L}_p = D_p^{-1/2}L_p D_p^{-1/2}$ (where $D_p$ is
 the block-diagonal of degree matrices) would bound eigenvalues to $[0,2]$ and
-improve numerical conditioning. A fully differentiable version embedded in a
-graph neural network architecture~\cite{schaub2020} could serve as a
-structure-aware inductive bias.
+improve numerical conditioning. A fully differentiable variant along the lines of operator constructions surveyed for random walks and normalized Hodge Laplacians on simplicial complexes~\cite{schaub2020} could serve as a structure-aware regularizer when fitting statistical models to multi-relational scientific measurements.
 
 \subsection{Benchmark-Scale Future Directions}
 
 Scaling to $n=10^4$ entities requires sparse implementations throughout.
 Spectral sparsifiers for Hodge Laplacians~\cite{horak2013} reduce $H_p^{(i)}$
 to $O(N_p\log N_p)$ nonzeros while preserving eigenvalue approximation.
-Real-world knowledge graph and document retrieval benchmarks would test the
-framework at operational scale.
+Large-scale protein-interaction, gene-regulatory, and citation or co-authorship networks would test the framework at operational scale.
 
 
 %% ══════════════════════════════════════════════════════════════════════════════
@@ -2151,9 +1972,8 @@ complete characterization of $\ker(L_p)$ as the set of consensus-harmonic
 configurations. The operator reduces to the classical supra-Laplacian at $p=0$
 (Proposition~\ref{prop:p0}) and to the single-layer Hodge Laplacian at $k=1$
 (Proposition~\ref{prop:k1}), confirming it is the natural synthesis of both
-prior frameworks. As in the introduction, the primary contribution is
-mathematical---the operator, its reductions, and its spectral consequences---while
-the LLM reasoning thread serves as an illustrative domain.
+prior frameworks. The primary contribution is mathematical: the operator, its
+reductions, the spectral consequences above, and the controlled synthetic validation.
 
 \subsection{Interpretive Summary}
 
@@ -2166,23 +1986,15 @@ frontiers: regions of partial agreement. The generalized Fiedler vector
 identifies the most contested partition. The low-energy projector $\Pp$
 compresses multi-view chain signals to their topologically coherent core.
 
-\subsection{Application Summary}
+\subsection{Possible Biological and Scientific-Network Directions}
 
-In the LLM reasoning application, the operator serves as a diagnostic device:
-it monitors spectral coherence over a reasoning trace in real time, identifies
-topological inconsistencies in relational views, localizes conflict to specific
-entity partitions via the Fiedler vector, and provides a compressed
-representation of the multi-view relational state for potential downstream use.
-All of this is accomplished without modifying the LLM itself.
+The operator introduced here may be relevant in domains where several relational views coexist over a shared entity set and where at least some within-view structure is genuinely higher-order. Examples may include protein-interaction systems, gene-regulatory and pathway networks, ecological co-occurrence networks, citation and co-authorship networks, and experimental-dependency structures in science. At present, these should be understood only as prospective directions. The paper does not claim established application-level gains in any of these domains; rather, it provides a mathematical framework that may support such investigations in future work.
 
 \subsection{Broader Implications}
 
 The algebraic pattern of the Supra-Hodge Laplacian---Hodge operators on the
 diagonal, supra-Laplacian-style coupling on the off-diagonal---suggests
-relevance to domains in which multiple higher-order relational views coexist
-over a shared entity set. Biological networks, multi-modal knowledge graphs,
-social hypergraph systems, and geometric deep learning architectures all
-exhibit aspects of this structure. Within the coupled simplicial setting
+relevance whenever multiple higher-order relational views coexist over a shared entity set drawn from molecular biology or from scientific metadata (publications, authors, experiments, instruments). Within the coupled simplicial setting
 studied here, the Consensus-Harmonic Nullspace Theorem provides a concrete and
 verifiable characterization of zero-energy equilibrium for stacked $p$-chain
 signals.
@@ -2269,7 +2081,7 @@ proof appears in the main text.
 \section{Expanded Worked Examples with Explicit Matrices}
 \label{app:examples}
 
-\subsection{Full Two-Layer Supra-Hodge $p=1$ Computation}
+\subsection{\texorpdfstring{Full Two-Layer Supra-Hodge $p=1$ Computation}{Full Two-Layer Supra-Hodge p=1 Computation}}
 
 The matrix $L_1$ for Example~\ref{ex:sh_main} is given explicitly in that
 example. We verify the energy expansion: for $v=([1,0,0]^\top,[1,0,0]^\top)$
@@ -2321,8 +2133,8 @@ operations versus $O(r\cdot kN_p\log(kN_p))$ for a full restart.
 \label{app:experiments}
 
 \textbf{Random complex generation.} For each trial, generate $n$ entities with
-embeddings $e_v\sim\mathcal{N}(0,I_{32})$, normalized to unit sphere.
-Similarity: $\simop(u,v)=e_u^\top e_v$. Triplet score:
+Gaussian feature vectors $f_v\sim\mathcal{N}(0,I_{32})$, normalized to unit sphere.
+Similarity: $\simop(u,v)=f_u^\top f_v$. Triplet score:
 $\tri(u,v,w)=\min(\simop(u,v),\simop(u,w),\simop(v,w))$. Thresholds:
 $\tau_1=0.6$, $\tau_2=0.5$.
 
@@ -2376,28 +2188,6 @@ Random walks on simplicial complexes and the normalized Hodge Laplacian,
 L.-H. Lim,
 Hodge Laplacians on graphs,
 \textit{SIAM Review}, 62(3):685--715, 2020.
-
-\bibitem{yao2023}
-S. Yao, J. Zhao, D. Yu, N. Du, I. Shafran, K. Narasimhan, Y. Cao,
-ReAct: Synergizing reasoning and acting in language models,
-\textit{International Conference on Learning Representations (ICLR)}, 2023.
-
-\bibitem{yang2018}
-Z. Yang, P. Qi, S. Zhang, Y. Bengio, W.W. Cohen,
-R. Salakhutdinov, C.D. Manning,
-HotpotQA: A dataset for diverse, explainable multi-hop question answering,
-\textit{Proceedings of EMNLP}, 2018.
-
-\bibitem{edge2024}
-D. Edge, H. Trinh, N. Cheng, J. Bradley, A. Chao, A. Mody, S. Truitt, J. Larson,
-From local to global: A graph RAG approach to query-focused summarization,
-\textit{arXiv:2404.16130}, 2024.
-
-\bibitem{qin2023}
-Y. Qin, S. Hu, Y. Lin, W. Chen, N. Ding, G. Cui, Z. Zeng, Y. Zhou, X. Huang,
-Z. Liu, M. Zheng, Y. Cai, C. Liu, D. Suyal, Z. Liu, M. Sun, Z. Liu,
-Tool learning with foundation models,
-\textit{arXiv:2304.08354}, 2023.
 
 \bibitem{hansen2020}
 J. Hansen, T. Gebhart,
